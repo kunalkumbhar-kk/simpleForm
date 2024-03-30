@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Form</title>
+</head>
+<body>
+    <h2>Contact Us</h2>
+    <form id="contactForm">
+        <label for="name">Name:</label><br>
+        <input type="text" id="name" name="name" required><br><br>
+        <label for="email">Email:</label><br>
+        <input type="email" id="email" name="email" required><br><br>
+        <label for="message">Message:</label><br>
+        <textarea id="message" name="message" rows="4" required></textarea><br><br>
+        <button type="submit">Submit</button>
+    </form>
+
+    <script>
+        document.getElementById("contactForm").addEventListener("submit", function(event) {
+            event.preventDefault(); // Prevent default form submission
+
+            var formData = new FormData(this); // Create FormData object from form data
+            var xhr = new XMLHttpRequest(); // Create XMLHttpRequest object
+
+            // Configure the request
+            xhr.open("POST", "submit_form.php"); // Change this URL to the server-side script URL
+            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+            // Define what happens on successful data submission
+            xhr.onload = function() {
+                if (xhr.status === 200) {
+                    alert("Form submitted successfully!");
+                    document.getElementById("contactForm").reset(); // Reset the form
+                } else {
+                    alert("Error submitting form. Please try again later.");
+                }
+            };
+
+            // Define what happens in case of error
+            xhr.onerror = function() {
+                alert("Error submitting form. Please try again later.");
+            };
+
+            // Send the form data
+            xhr.send(new URLSearchParams(formData));
+        });
+    </script>
+</body>
+</html>
